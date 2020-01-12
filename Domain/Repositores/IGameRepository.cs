@@ -8,8 +8,14 @@ namespace GamesApi.Domain.Repositores
 {
     public interface IGameRepository
     {
-        public IEnumerable<Game> GetAllGames();
-        public Game GetGame(int id);
-        public Task AddGame(Game game);
+        Task<IEnumerable<Game>> GetAllGames();
+        Task<Game> GetGame(int id);
+        Task AddGame(Game gameToAdd);
+        Task DeleteGame(Game gameToDelete);
+        Task SaveChangesAsync();
+        Task AddGameImageAsync(GameImage gameImage);
+        Task<GameImage> GetGameImageAsync(int gameId);
+        Task UpdateGameImageAsync(GameImage gameImage, string newImage);
+        string ConvertImagePathToBase64(string imagePath);
     }
 }

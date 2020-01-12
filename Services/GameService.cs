@@ -21,14 +21,44 @@ namespace GamesApi.Services
             await GameRepository.AddGame(game);
         }
 
-        public IEnumerable<Game> GetAllGames()
+        public async Task AddGameImageAsync(GameImage gameImage)
+        {
+            await GameRepository.AddGameImageAsync(gameImage);
+        }
+
+        public string ConvertImagePathToBase64(string imagePath)
+        {
+            return GameRepository.ConvertImagePathToBase64(imagePath);
+        }
+
+        public async Task DeleteGame(Game game)
+        {
+            await GameRepository.DeleteGame(game);
+        }
+
+        public Task<IEnumerable<Game>> GetAllGames()
         {
             return GameRepository.GetAllGames();
         }
 
-        public Game GetGame(int id)
+        public async Task<Game> GetGame(int id)
         {
-            return GameRepository.GetGame(id);
+            return await GameRepository.GetGame(id);
+        }
+
+        public Task<GameImage> GetGameImageAsync(int gameId)
+        {
+            return GameRepository.GetGameImageAsync(gameId);
+        }
+
+        public Task SaveChangesAsync()
+        {
+            return GameRepository.SaveChangesAsync();
+        }
+
+        public Task UpdateGameImageAsync(GameImage gameImage, string newImage)
+        {
+            return GameRepository.UpdateGameImageAsync(gameImage, newImage);
         }
     }
 }

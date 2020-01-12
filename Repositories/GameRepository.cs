@@ -18,17 +18,51 @@ namespace GamesApi.Repositories
                 new Game() { GameId = 3, Name = "Battlefield 5", Genre = Genre.FPS, Price = 39.99 }
             };
         }
-        public IEnumerable<Game> GetAllGames()
+        public async Task<IEnumerable<Game>> GetAllGames()
         {
-            return Games;
+            return Games.ToList();
         }
 
-        public Game GetGame(int id)
+        public async Task<Game> GetGame(int id)
         {
             return Games.FirstOrDefault(game => game.GameId == id);
         }
 
         public Task AddGame(Game game)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task DeleteGame(Game game)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task UpdateGame(Game gameToUpdate)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task AddGameImageAsync(GameImage gameImage)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<GameImage> GetGameImageAsync(int gameId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task UpdateGameImageAsync(GameImage gameImage, string newImage)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string ConvertImagePathToBase64(string imagePath)
         {
             throw new System.NotImplementedException();
         }
