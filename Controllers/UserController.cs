@@ -17,7 +17,7 @@ namespace GamesApi.Controllers
             _userService = userService;
         }
         [AllowAnonymous]
-        [HttpGet("authenticate")]
+        [HttpPost("authenticate")]
         public ActionResult Authenticate([FromBody]AuthenticateModel model)
         {
             //This method is basically login authentication.
