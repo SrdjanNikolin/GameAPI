@@ -65,9 +65,9 @@ namespace GamesApi.Controllers
             return BadRequest(ModelState);
         }
         [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteGame(int gameId)
+        public async Task<ActionResult> DeleteGame(int id)
         {
-            var gameToDelete = await _gameService.GetGame(gameId);
+            var gameToDelete = await _gameService.GetGame(id);
             if(gameToDelete != null)
             {
                await _gameService.DeleteGame(gameToDelete);
@@ -98,7 +98,6 @@ namespace GamesApi.Controllers
             await _gameService.SaveChangesAsync();
             return RedirectToAction("GetAllGames");
         }
-        // add {id}? 
         [HttpPost("addImage")]
         public async Task<ActionResult> AddGameImage([FromBody]GameImage gameImage)
         {
