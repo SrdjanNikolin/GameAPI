@@ -1,10 +1,6 @@
 ﻿using GamesApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GamesApi.Persistance
 {
@@ -12,6 +8,7 @@ namespace GamesApi.Persistance
     {
         private readonly IConfiguration _config;
         public DbSet<Game> Games { get; set; }
+        public DbSet<GameImage> GameImages { get; set; }
         public GameRepositoryDBContext(DbContextOptions<GameRepositoryDBContext> options, IConfiguration config) :base(options)
         {
             _config = config;

@@ -6,8 +6,14 @@ namespace GamesApi.Domain.Services
 {
     public interface IGameService
     {
-        public IEnumerable<Game> GetAllGames();
-        public Game GetGame(int id);
-        public Task AddGame(Game game);
+        Task<IEnumerable<Game>> GetAllGames();
+        Task<Game> GetGame(int id);
+        Task AddGame(Game game);
+        Task DeleteGame(Game game);
+        Task SaveChangesAsync();
+        Task AddGameImageAsync(GameImage gameImage);
+        Task<GameImage> GetGameImageAsync(int gameId);
+        Task UpdateGameImageAsync(GameImage gameImage, string newImage);
+        string ConvertImagePathToBase64(string imagePath);
     }
 }
