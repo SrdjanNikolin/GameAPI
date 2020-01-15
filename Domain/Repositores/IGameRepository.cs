@@ -12,10 +12,9 @@ namespace GamesApi.Domain.Repositores
         Task<Game> GetGame(int id);
         Task AddGame(Game gameToAdd);
         Task DeleteGame(Game gameToDelete);
-        Task SaveChangesAsync();
         Task AddGameImageAsync(GameImage gameImage);
+        Task SaveChangesAsync();
         Task<GameImage> GetGameImageAsync(int gameId);
-        Task UpdateGameImageAsync(GameImage gameImage, string newImage);
         string ConvertImagePathToBase64(string imagePath);
     }
 }

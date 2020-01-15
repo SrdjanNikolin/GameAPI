@@ -11,9 +11,8 @@ namespace GamesApi.Domain.Services
         Task AddGame(Game game);
         Task DeleteGame(Game game);
         Task SaveChangesAsync();
-        Task AddGameImageAsync(GameImage gameImage);
         Task<GameImage> GetGameImageAsync(int gameId);
-        Task UpdateGameImageAsync(GameImage gameImage, string newImage);
+        Task AddGameImageAsync(GameImage gameImage);
         string ConvertImagePathToBase64(string imagePath);
     }
 }

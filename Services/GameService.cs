@@ -55,10 +55,5 @@ namespace GamesApi.Services
         {
             return GameRepository.SaveChangesAsync();
         }
-
-        public Task UpdateGameImageAsync(GameImage gameImage, string newImage)
-        {
-            return GameRepository.UpdateGameImageAsync(gameImage, newImage);
-        }
     }
 }
