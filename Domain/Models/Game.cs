@@ -6,12 +6,13 @@ namespace GamesApi.Domain.Models
     public class Game
     {
         public int GameId { get; set; }
+        [Required(ErrorMessage = "Name is a required field.")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Price is a required field.")]
+        [Range(5.00, 80.00, ErrorMessage = "The price must be between 5 and 80.")]
+        public double Price { get; set; }
         [Required]
-        public string Name { get; set; }      
-        [Range(1,80)]
-        public double Price { get; set; }     
-        [Range(1,10)]
-        public Genre Genre { get; set; }
+        public string Genre { get; set; }
         public GameImage GameImage { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace GamesApi.Services
         //should get users from a database.
         private List<User> users = new List<User>
         {
-            new User {UserId = 1, Username = "Bob", Password = "Jenkins", Email = "123@gmail.com"}
+            new User {UserId = 1, Username = "Bob", Password = "JenkinsTheSecond", Email = "123@gmail.com"}
         };
 
         public User Authenticate(string username, string password)

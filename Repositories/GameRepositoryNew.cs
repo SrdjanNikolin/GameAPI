@@ -24,7 +24,6 @@ namespace GamesApi.Repositories
         }
         public async Task<IEnumerable<Game>> GetAllGames()
         {
-            //return await _context.Games.ToListAsync();
             return await _context.Games.Include(g => g.GameImage).ToListAsync();
         }
         public async Task<Game> GetGame(int id)
@@ -42,22 +41,16 @@ namespace GamesApi.Repositories
         }
         public async Task AddGameImageAsync(GameImage gameImage)
         {
-            GameImage gameImageToAdd = new GameImage();
-            string imageData = ConvertImagePathToBase64(gameImage.GameImageData);
-            gameImageToAdd.GameImageData = imageData;
-            gameImageToAdd.GameId = gameImage.GameId;
-            await _context.GameImages.AddAsync(gameImageToAdd);
+            await _context.GameImages.AddAsync(gameImage);
+            await _context.SaveChangesAsync();
         }
         public async Task<GameImage> GetGameImageAsync(int gameId)
         {
             return await _context.GameImages.FindAsync(gameId);
         }
-        public string ConvertImagePathToBase64(string imagePath)
+        public async Task<Game> GetLastGame()
         {
-            //TODO: try catch and throw up?
-            //validate path
-            string imageData = @"data:image/png;base64," + Convert.ToBase64String(File.ReadAllBytes(imagePath));
-            return imageData;
+            return await _context.Games.OrderByDescending(g => g.GameId).FirstOrDefaultAsync();
         }
     }
 }

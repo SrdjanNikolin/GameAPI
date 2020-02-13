@@ -9,6 +9,7 @@ using GamesApi.Domain.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
 namespace GamesApi.Controllers
 {
@@ -24,6 +25,20 @@ namespace GamesApi.Controllers
         }
         private IGameService _gameService;
 
+        [HttpGet("all")]
+        public async Task<ActionResult<string>> GetAllGames()
+        {
+            var games = await _gameService.GetAllGames();
+            if (games == null)
+            {
+                return NotFound();
+            }
+            string json = JsonConvert.SerializeObject(games, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            return json;
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetGame(int id)
         {
@@ -39,30 +54,29 @@ namespace GamesApi.Controllers
             });
             return json;
         }
-        [HttpGet("all")]
-        public async Task<ActionResult<string>> GetAllGames()
+        [HttpGet("getLastGame")]
+        public async Task<ActionResult<string>> GetLastGame()
         {
-            var games = await _gameService.GetAllGames();
-            if (games == null)
+            var lastGame = await _gameService.GetLastGame();
+            if (lastGame != null)
             {
-                return NotFound();
+                string json = JsonConvert.SerializeObject(lastGame, Formatting.Indented, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+                return json;
             }
-            string json = JsonConvert.SerializeObject(games, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-            return json;
-            //return games.ToList();
+            return NotFound();
         }
-        [HttpPost("addgame")]
-        public async Task<ActionResult<Game>> AddGame([FromBody]Game game)
+        [HttpPost("addGame")]
+        public async Task<ActionResult> AddGame([FromBody]Game gameToAdd)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                await _gameService.AddGame(game);
-                return RedirectToAction("GetAllGames");
+                await _gameService.AddGame(gameToAdd);
+                return Ok();
             }
-            return BadRequest(ModelState);
+            return BadRequest();
         }
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult> DeleteGame(int id)
@@ -82,7 +96,6 @@ namespace GamesApi.Controllers
             {
                 return BadRequest();
             }
-
             var gameToUpdate = await _gameService.GetGame(gameId);
             if (gameToUpdate == null)
             {
@@ -96,7 +109,7 @@ namespace GamesApi.Controllers
                 return BadRequest(ModelState);
             }
             await _gameService.SaveChangesAsync();
-            return RedirectToAction("GetAllGames");
+            return Ok();
         }
         [HttpPost("addImage")]
         public async Task<ActionResult> AddGameImage([FromBody]GameImage gameImage)
@@ -110,7 +123,6 @@ namespace GamesApi.Controllers
                 return NotFound();
             }
             await _gameService.AddGameImageAsync(gameImage);
-            await _gameService.SaveChangesAsync();
             return Ok();
         }
         [HttpGet("getImage/{gameId}")]
@@ -123,17 +135,15 @@ namespace GamesApi.Controllers
             }
             return gameImage;
         }
-        [HttpPatch("updateImage/{gameId}")]
-        public async Task<ActionResult> UpdateGameImage(int gameId, [FromBody]string imagePath)
+        [HttpPatch("updateImage/{gameImageId}")]
+        public async Task<ActionResult> UpdateGameImage(int gameImageId, [FromBody] JsonPatchDocument<GameImage> patchDoc)
         {
-            var gameImage = await _gameService.GetGameImageAsync(gameId);
+            var gameImage = await _gameService.GetGameImageAsync(gameImageId);
             if(gameImage == null)
             {
                 return NotFound();
             }
-            JsonPatchDocument patchDocument = new JsonPatchDocument();
-            string imagePathBase64 = _gameService.ConvertImagePathToBase64(imagePath);
-            patchDocument.Replace("/GameImageData", imagePathBase64).ApplyTo(gameImage);
+            patchDoc.ApplyTo(gameImage, ModelState);
             await _gameService.SaveChangesAsync();
 
             return Ok();

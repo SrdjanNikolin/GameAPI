@@ -26,11 +26,6 @@ namespace GamesApi.Services
             await GameRepository.AddGameImageAsync(gameImage);
         }
 
-        public string ConvertImagePathToBase64(string imagePath)
-        {
-            return GameRepository.ConvertImagePathToBase64(imagePath);
-        }
-
         public async Task DeleteGame(Game game)
         {
             await GameRepository.DeleteGame(game);
@@ -49,6 +44,11 @@ namespace GamesApi.Services
         public Task<GameImage> GetGameImageAsync(int gameId)
         {
             return GameRepository.GetGameImageAsync(gameId);
+        }
+
+        public async Task<Game> GetLastGame()
+        {
+            return await GameRepository.GetLastGame();
         }
 
         public Task SaveChangesAsync()
